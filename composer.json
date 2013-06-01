@@ -1,12 +1,12 @@
 {
-    "name":        "alexeyshockov/postman-bundle",
+    "name":        "staffim/postman-bundle",
     "type":        "symfony-bundle",
     "description": "Mail handling for Symfony 2",
     "keywords":    ["mail", "symfony"],
-    "homepage":    "http://github.com/alexeyshockov/PostmanBundle",
+    "homepage":    "http://github.com/staffim/PostmanBundle",
     "license":     "MIT",
     "support":     {
-        "issues": "https://github.com/alexeyshockov/PostmanBundle/issues"
+        "issues": "https://github.com/staffim/PostmanBundle/issues"
     },
     "authors":     [
         {
@@ -20,15 +20,8 @@
     },
     "require":     {
         "php": ">=5.3.2",
-
-        "symfony/monolog-bundle": "*",
-
-        "alexeyshockov/colada": "dev-master",
-        "alexeyshockov/clock":  "dev-master",
-
         "zetacomponents/mail": "dev-master",
-
-        "willdurand/email-reply-parser": "dev-master"
+        "willdurand/email-reply-parser": "1.0.0"
     },
     "target-dir":  "Postman/PostmanBundle"
 }

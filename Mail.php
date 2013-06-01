@@ -36,11 +36,10 @@ class Mail
     private $replyAddress;
 
     /**
-     * @var \Colada\Collection
+     * @var array
      */
     private $attachments;
 
-    // TODO Builder.
     public function __construct($sender, $recipient, $subject = '', $body = '', $replyAddress = '', $attachments = array())
     {
         $this->sender       = $sender;
@@ -48,7 +47,7 @@ class Mail
         $this->subject      = $subject;
         $this->body         = $body;
         $this->replyAddress = $replyAddress;
-        $this->attachments  = to_collection($attachments);
+        $this->attachments  = $attachments;
     }
 
     /**
@@ -56,7 +55,6 @@ class Mail
      *
      * @return string
      */
-    // TODO To getPersonForReply(). Use Person as return value.
     public function getReplyAddress()
     {
         return $this->replyAddress;
@@ -112,7 +110,7 @@ class Mail
     }
 
     /**
-     * @return \Colada\Collection
+     * @return array
      */
     // TODO Attachment class.
     public function getAttachments()

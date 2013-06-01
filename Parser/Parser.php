@@ -3,6 +3,7 @@
 namespace Postman\PostmanBundle\Parser;
 
 use Postman\PostmanBundle\Mail;
+use EmailReplyParser\EmailReplyParser;
 
 /**
  * @author Alexey Shockov <alexey@shockov.com>
@@ -38,12 +39,11 @@ class Parser implements ParserInterface
             throw new \InvalidArgumentException('Unable to parse message.');
         }
 
-        $visibleFragments = \EmailReplyParser\EmailReplyParser::read($plainPart->text);
+        $visibleFragments = EmailReplyParser::read($plainPart->text);
 
-        $visibleFragments = to_collection($visibleFragments)
-            ->rejectBy(x()->isHidden())
-            ->rejectBy(x()->isQuoted())
-            ->toArray();
+        $visibleFragments = array_filter($visibleFragments, function($fragment) {
+            return !($fragment->isHidden() || $fragment->isQuoted());
+        });
 
         $text = implode("\n", $visibleFragments);
 
