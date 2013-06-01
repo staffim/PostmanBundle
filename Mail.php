@@ -36,11 +36,19 @@ class Mail
     private $replyAddress;
 
     /**
-     * @var array
+     * @var \Postman\PostmanBundle\Attachment[]
      */
     private $attachments;
 
-    public function __construct($sender, $recipient, $subject = '', $body = '', $replyAddress = '', $attachments = array())
+    /**
+     * @param string $sender
+     * @param string $recipient
+     * @param string string $subject
+     * @param string string $body
+     * @param string string $replyAddress
+     * @param \Postman\PostmanBundle\Attachment[] $attachments
+     */
+    public function __construct($sender, $recipient, $subject = '', $body = '', $replyAddress = '', array $attachments = array())
     {
         $this->sender       = $sender;
         $this->recipient    = $recipient;
@@ -110,9 +118,8 @@ class Mail
     }
 
     /**
-     * @return array
+     * @return \Postman\PostmanBundle\Attachment[]
      */
-    // TODO Attachment class.
     public function getAttachments()
     {
         return $this->attachments;
