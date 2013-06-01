@@ -2,11 +2,13 @@
 
 namespace Postman\PostmanBundle\Parser;
 
+use Postman\PostmanBundle\Attachment;
 use Postman\PostmanBundle\Mail;
 use EmailReplyParser\EmailReplyParser;
 
 /**
  * @author Alexey Shockov <alexey@shockov.com>
+ * @author Semen Barabash <semen.barabash@gmail.com>
  */
 class Parser implements ParserInterface
 {
@@ -14,6 +16,8 @@ class Parser implements ParserInterface
      * @param string $mail Raw mail string.
      *
      * @return \Postman\PostmanBundle\Mail
+     *
+     * @throws \InvalidArgumentException
      */
     public function parse($mail)
     {
@@ -25,10 +29,15 @@ class Parser implements ParserInterface
 
         // TODO Parse text/html to text...
         $plainPart = null;
-        if ($mail->body instanceof \ezcMailMultipartAlternative) {
+        $attachments = array();
+        if ($mail->body instanceof \ezcMailMultipart) {
             foreach ($mail->body->getParts() as $part) {
-                if ('plain' == $part->subType) {
+                if ($part instanceof \ezcMailText && 'plain' == $part->subType) {
                     $plainPart = $part;
+                } elseif ($part instanceof \ezcMailFile) {
+                    $attachments[] = new Attachment(
+                        $part->fileName, $part->mimeType, $part->size, $part->dispositionType
+                    );
                 }
             }
         } else {
@@ -53,7 +62,9 @@ class Parser implements ParserInterface
             $mail->from,
             $mail->to[0],
             $mail->subject,
-            $text
+            $text,
+            $mail->from->email,
+            $attachments
         );
     }
 }
