@@ -9,6 +9,7 @@ use EmailReplyParser\EmailReplyParser;
 /**
  * @author Alexey Shockov <alexey@shockov.com>
  * @author Semen Barabash <semen.barabash@gmail.com>
+ * @author Vyacheslav Salakhutdinov <megazoll@gmail.com>
  */
 class Parser implements ParserInterface
 {
@@ -31,7 +32,8 @@ class Parser implements ParserInterface
         $plainPart = null;
         $attachments = array();
         if ($mail->body instanceof \ezcMailMultipart) {
-            foreach ($mail->body->getParts() as $part) {
+            $parts = $mail->body instanceof \ezcMailMultipartRelated ? $mail->body->getRelatedParts() : $mail->body->getParts();
+            foreach ($parts as $part) {
                 if ($part instanceof \ezcMailText && 'plain' == $part->subType) {
                     $plainPart = $part;
                 } elseif ($part instanceof \ezcMailFile) {
