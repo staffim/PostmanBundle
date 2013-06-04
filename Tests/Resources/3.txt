@@ -1,0 +1,43 @@
+                                                                                                                                                                                                                                                               
+MIME-Version: 1.0
+Received: by 10.216.188.201 with HTTP; Tue, 4 Jun 2013 09:42:41 -0700 (PDT)
+Date: Tue, 4 Jun 2013 20:42:41 +0400
+Delivered-To: megazoll@gmail.com
+Message-ID: <CA+CZ+odyjXk-aGe66Gjw9O7JadrN12YVmXWVQ3=qT4JgujuCZQ@mail.gmail.com>
+Subject: image
+From: Vyacheslav Salakhutdinov <megazoll@gmail.com>
+To: Vyacheslav Salakhutdinov <megazoll@gmail.com>
+Content-Type: multipart/related; boundary=001a11c3c07c0fea1f04de56c59b
+
+--001a11c3c07c0fea1f04de56c59b
+Content-Type: multipart/alternative; boundary=001a11c3c07c0fea1c04de56c59a
+
+--001a11c3c07c0fea1c04de56c59a
+Content-Type: text/plain; charset=ISO-8859-1
+
+img
+[image: Inline image 1]
+
+--001a11c3c07c0fea1c04de56c59a
+Content-Type: text/html; charset=ISO-8859-1
+
+<div dir="ltr">img<div><img src="cid:ii_13f101185e7b4d96" alt="Inline image 1"></div></div>
+
+--001a11c3c07c0fea1c04de56c59a--
+--001a11c3c07c0fea1f04de56c59b
+Content-Type: image/jpeg; name="1.jpg"
+Content-Transfer-Encoding: base64
+Content-ID: <ii_13f101185e7b4d96>
+X-Attachment-Id: ii_13f101185e7b4d96
+
+/9j/4AAQSkZJRgABAQEASABIAAD/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+A
+jIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4
++Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wgARCAAKAAoDAREA
+AhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAQAD/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/9oA
+DAMBAAIQAxAAAAHfNBI//8QAFBABAAAAAAAAAAAAAAAAAAAAIP/aAAgBAQABBQIf/8QAFBEBAAAA
+AAAAAAAAAAAAAAAAIP/aAAgBAwEBPwEf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf
+/8QAFBABAAAAAAAAAAAAAAAAAAAAIP/aAAgBAQAGPwIf/8QAFBABAAAAAAAAAAAAAAAAAAAAIP/a
+AAgBAQABPyEf/9oADAMBAAIAAwAAABA0n//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8Q
+H//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8QH//EABgQAAIDAAAAAAAAAAAAAAAAAAAQ
+ESFR/9oACAEBAAE/EC8UH//Z
+--001a11c3c07c0fea1f04de56c59b--

@@ -50,6 +50,15 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 1,
                 __DIR__.'/../Resources/2.txt'
             ),
+            array(
+                'image',
+                'megazoll@gmail.com',
+                'megazoll@gmail.com',
+                'megazoll',
+                'img',
+                1,
+                __DIR__.'/../Resources/3.txt'
+            ),
         );
     }
 }

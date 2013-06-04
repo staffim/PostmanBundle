@@ -21,7 +21,7 @@ class Parser implements ParserInterface
     {
         if ($part instanceof \ezcMailMultipartAlternative) {
             $plainPart = null;
-            // By priority: text/plain, text/html, other.
+            // By priority: text/plain, text/*, other.
             $parts = $part->getParts();
 
             foreach ($part->getParts() as $subPart) {
@@ -42,7 +42,14 @@ class Parser implements ParserInterface
                 $this->parsePart($subPart);
             }
         } elseif ($part instanceof \ezcMailMultipartRelated) {
-            // Currently we skip multipart/related
+            $relatedParts = $part->getRelatedParts();
+            // Workaround for bug in getRelatedParts()
+            if ($mainPart = $part->getMainPart()) {
+                array_unshift($relatedParts, $mainPart);
+            }
+            foreach ($relatedParts as $subPart) {
+                $this->parsePart($subPart);
+            }
         }
     }
 
