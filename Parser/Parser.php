@@ -68,7 +68,7 @@ class Parser implements ParserInterface
     {
         $plainText = $part->text;
         if ($part->subType != 'plain') {
-            $plainText = strip_tags($plainText);
+            $plainText = $this->cleanHtmlBody($plainText);
         }
 
         $visibleFragments = array_filter(EmailReplyParser::read($plainText), function($fragment) {
@@ -77,6 +77,28 @@ class Parser implements ParserInterface
         $text = rtrim(implode("\n", $visibleFragments));
 
         $this->mailBuilder->addText($text);
+    }
+
+    /**
+     * Remove tags and replace some tags with new-line
+     *
+     * @param string $body
+     * @return string
+     */
+    protected function cleanHtmlBody($body)
+    {
+        $body = preg_replace('~<br[^>]*>~', "\n", $body);
+        $body = preg_replace('~<ul[^>]*>~', "\n", $body);
+        $body = preg_replace('~<div[^>]*>~', "\n", $body);
+        $body = preg_replace('~<li[^>]*>~', '* ', $body);
+
+        $body = preg_replace('~(?:\n\s?\n)+~', "\n", $body);
+
+        $body = stripslashes(html_entity_decode($body));
+
+        $body = preg_replace('~(<[^@>]+>)~', '', $body);
+
+        return $body;
     }
 
     /**
