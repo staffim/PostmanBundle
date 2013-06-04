@@ -63,7 +63,9 @@ class Mail
     public function getTo($withoutDomain = false)
     {
         if ($withoutDomain) {
-            return array_shift(explode('@', $this->to));
+            $emailParts = explode('@', $this->to);
+
+            return array_shift($emailParts);
         } else {
             return $this->to;
         }
