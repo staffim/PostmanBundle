@@ -1,0 +1,48 @@
+                                                                                                                                                                                                                                                               
+MIME-Version: 1.0
+Received: by 10.216.188.201 with HTTP; Tue, 4 Jun 2013 05:29:42 -0700 (PDT)
+Date: Tue, 4 Jun 2013 16:29:42 +0400
+Delivered-To: megazoll@gmail.com
+Message-ID: <CA+CZ+odYDaeOPh2vAKHbFC0pJqa9qb14dZ5huQDfu7tdL71gBg@mail.gmail.com>
+Subject: Subject
+From: Vyacheslav Salakhutdinov <megazoll@googlemail.com>
+To: Vyacheslav Salakhutdinov <megazoll@gmail.com>
+Content-Type: multipart/mixed; boundary=001a11c284524ceff104de533c44
+
+--001a11c284524ceff104de533c44
+Content-Type: multipart/alternative; boundary=001a11c284524cefec04de533c42
+
+--001a11c284524cefec04de533c42
+Content-Type: text/plain; charset=ISO-8859-1
+
+test
+
+--001a11c284524cefec04de533c42
+Content-Type: text/html; charset=ISO-8859-1
+
+<div dir="ltr">test<br clear="all">
+</div>
+
+--001a11c284524cefec04de533c42--
+--001a11c284524ceff104de533c44
+Content-Type: text/plain; charset=US-ASCII; name="1.txt"
+Content-Disposition: attachment; filename="1.txt"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hhj2doyb0
+
+MQo=
+--001a11c284524ceff104de533c44
+Content-Type: text/plain; charset=US-ASCII; name="2.txt"
+Content-Disposition: attachment; filename="2.txt"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hhj2dv3x1
+
+Mgo=
+--001a11c284524ceff104de533c44
+Content-Type: text/plain; charset=US-ASCII; name="3.txt"
+Content-Disposition: attachment; filename="3.txt"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hhj2e3xd2
+
+Mwo=
+--001a11c284524ceff104de533c44--

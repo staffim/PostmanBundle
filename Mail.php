@@ -3,22 +3,19 @@
 namespace Postman\PostmanBundle;
 
 /**
- * Abstraction from parsing libraries (Zeta Components Mail, Swift,..).
- *
- * @author Alexey Shockov <alexey@shockov.com>
+ * @author Vyacheslav Salakhutdinov <megazoll@gmail.com>
  */
-// TODO Raw mail as string...
 class Mail
 {
     /**
      * @var string
      */
-    private $sender;
+    private $from;
 
     /**
      * @var string
      */
-    private $recipient;
+    private $to;
 
     /**
      * @var string
@@ -31,72 +28,45 @@ class Mail
     private $body;
 
     /**
-     * @var string
-     */
-    private $replyAddress;
-
-    /**
      * @var \Postman\PostmanBundle\Attachment[]
      */
     private $attachments;
 
     /**
-     * @param string $sender
-     * @param string $recipient
+     * @param string $from
+     * @param string $to
      * @param string string $subject
      * @param string string $body
      * @param string string $replyAddress
      * @param \Postman\PostmanBundle\Attachment[] $attachments
      */
-    public function __construct($sender, $recipient, $subject = '', $body = '', $replyAddress = '', array $attachments = array())
+    public function __construct($from, $to, $subject = '', $body = '', array $attachments = array())
     {
-        $this->sender       = $sender;
-        $this->recipient    = $recipient;
-        $this->subject      = $subject;
-        $this->body         = $body;
-        $this->replyAddress = $replyAddress;
-        $this->attachments  = $attachments;
+        $this->from        = $from;
+        $this->to          = $to;
+        $this->subject     = $subject;
+        $this->body        = $body;
+        $this->attachments = $attachments;
     }
 
     /**
-     * Reply-To.
-     *
      * @return string
      */
-    public function getReplyAddress()
+    public function getFrom()
     {
-        return $this->replyAddress;
+        return $this->from;
     }
 
     /**
-     * From.
-     *
      * @return string
      */
-    public function getSender()
+    public function getTo($withoutDomain = false)
     {
-        return $this->sender;
-    }
-
-    /**
-     * To. Without domain part.
-     *
-     * @return string
-     */
-    public function getRecipientName()
-    {
-        return preg_replace('/^(.*)\@/i', '$1', $this->recipient);
-    }
-
-    /**
-     * To.
-     *
-     * @return string
-     */
-    // TODO Many recipients.
-    public function getRecipient()
-    {
-        return $this->recipient;
+        if ($withoutDomain) {
+            return array_shift(explode('@', $this->to));
+        } else {
+            return $this->to;
+        }
     }
 
     /**

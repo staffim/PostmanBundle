@@ -1,0 +1,34 @@
+                                                                                                                                                                                                                                                               
+MIME-Version: 1.0
+Received: by 10.216.188.201 with HTTP; Tue, 4 Jun 2013 06:19:07 -0700 (PDT)
+Date: Tue, 4 Jun 2013 17:19:07 +0400
+Delivered-To: megazoll@gmail.com
+Message-ID: <CA+CZ+ockLS++S1szj5ikK9ZZhyhfdoqHkaEjD-9qABgJyU-UFA@mail.gmail.com>
+Subject: subj
+From: Vyacheslav Salakhutdinov <megazoll@googlemail.com>
+To: Vyacheslav Salakhutdinov <megazoll@gmail.com>
+Content-Type: multipart/mixed; boundary=001a11335efc12d8d404de53ed9d
+
+--001a11335efc12d8d404de53ed9d
+Content-Type: multipart/alternative; boundary=001a11335efc12d8d004de53ed9b
+
+--001a11335efc12d8d004de53ed9b
+Content-Type: text/plain; charset=ISO-8859-1
+
+zip
+
+--001a11335efc12d8d004de53ed9b
+Content-Type: text/html; charset=ISO-8859-1
+
+<div dir="ltr">zip</div>
+
+--001a11335efc12d8d004de53ed9b--
+--001a11335efc12d8d404de53ed9d
+Content-Type: application/zip; name="1.zip"
+Content-Disposition: attachment; filename="1.zip"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hhj460fo0
+
+UEsDBAoDAAAAAJODxEJT/FFnAgAAAAIAAAAFAAAAMS50eHQxClBLAQI/AwoDAAAAAJODxEJT/FFn
+AgAAAAIAAAAFAAAAAAAAAAAAIIC0gQAAAAAxLnR4dFBLBQYAAAAAAQABADMAAAAlAAAAAAA=
+--001a11335efc12d8d404de53ed9d--

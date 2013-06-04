@@ -3,16 +3,82 @@
 namespace Postman\PostmanBundle\Parser;
 
 use Postman\PostmanBundle\Attachment;
-use Postman\PostmanBundle\Mail;
+use Postman\PostmanBundle\MailBuilder;
 use EmailReplyParser\EmailReplyParser;
 
 /**
- * @author Alexey Shockov <alexey@shockov.com>
- * @author Semen Barabash <semen.barabash@gmail.com>
  * @author Vyacheslav Salakhutdinov <megazoll@gmail.com>
+ * @author Semen Barabash <semen.barabash@gmail.com>
  */
 class Parser implements ParserInterface
 {
+    /**
+     * @var \Postman\PostmanBundle\MailBuilder
+     */
+    protected $mailBuilder;
+
+    protected function parseMultipart(\ezcMailMultipart $part)
+    {
+        if ($part instanceof \ezcMailMultipartAlternative) {
+            $plainPart = null;
+            // By priority: text/plain, text/html, other.
+            $parts = $part->getParts();
+
+            foreach ($part->getParts() as $subPart) {
+                if ($subPart instanceof \ezcMailText) {
+                    $plainPart = $subPart;
+                    if ($subPart->subType == 'plain') {
+                        break;
+                    }
+                }
+            }
+            if ($plainPart) {
+                $this->parsePart($plainPart);
+            } else {
+                $this->parsePart($parts[0]);
+            }
+        } elseif ($part instanceof \ezcMailMultipartMixed) {
+            foreach ($part->getParts() as $subPart) {
+                $this->parsePart($subPart);
+            }
+        } elseif ($part instanceof \ezcMailMultipartRelated) {
+            // Currently we skip multipart/related
+        }
+    }
+
+    protected function parsePart($part)
+    {
+        if ($part instanceof \ezcMailMultipart) {
+            $this->parseMultipart($part);
+        } elseif ($part instanceof \ezcMailFile) {
+            $this->parseFilePart($part);
+        } elseif ($part instanceof \ezcMailText) {
+            $this->parseTextPart($part);
+        }
+    }
+
+    protected function parseFilePart(\ezcMailFile $part)
+    {
+        $attachment = new Attachment($part->fileName, $part->mimeType, $part->size, $part->dispositionType);
+
+        $this->mailBuilder->addAttachment($attachment);
+    }
+
+    protected function parseTextPart(\ezcMailText $part)
+    {
+        $plainText = $part->text;
+        if ($part->subType != 'plain') {
+            $plainText = strip_tags($plainText);
+        }
+
+        $visibleFragments = array_filter(EmailReplyParser::read($plainText), function($fragment) {
+            return !($fragment->isHidden() || $fragment->isQuoted());
+        });
+        $text = rtrim(implode("\n", $visibleFragments));
+
+        $this->mailBuilder->addText($text);
+    }
+
     /**
      * @param string $mail Raw mail string.
      *
@@ -28,45 +94,13 @@ class Parser implements ParserInterface
 
         $mail = array_shift($mails);
 
-        // TODO Parse text/html to text...
-        $plainPart = null;
-        $attachments = array();
-        if ($mail->body instanceof \ezcMailMultipart) {
-            $parts = $mail->body instanceof \ezcMailMultipartRelated ? $mail->body->getRelatedParts() : $mail->body->getParts();
-            foreach ($parts as $part) {
-                if ($part instanceof \ezcMailText && 'plain' == $part->subType) {
-                    $plainPart = $part;
-                } elseif ($part instanceof \ezcMailFile) {
-                    $attachments[] = new Attachment(
-                        $part->fileName, $part->mimeType, $part->size, $part->dispositionType
-                    );
-                }
-            }
-        } else {
-            $plainPart = $mail->body;
-        }
+        $this->mailBuilder = MailBuilder::create()
+            ->setSubject($mail->subject)
+            ->setTo($mail->to[0]->email)
+            ->setFrom($mail->from->email);
 
-        if (empty($mail->from) || empty($mail->to)) {
-            throw new \InvalidArgumentException('Unable to parse message.');
-        }
+        $this->parsePart($mail->body);
 
-        $visibleFragments = EmailReplyParser::read($plainPart->text);
-
-        $visibleFragments = array_filter($visibleFragments, function($fragment) {
-            return !($fragment->isHidden() || $fragment->isQuoted());
-        });
-
-        $text = implode("\n", $visibleFragments);
-
-        $text = rtrim($text);
-
-        return new Mail(
-            $mail->from,
-            $mail->to[0],
-            $mail->subject,
-            $text,
-            $mail->from->email,
-            $attachments
-        );
+        return $this->mailBuilder->getMail();
     }
 }
