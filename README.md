@@ -1,4 +1,4 @@
-# PostmanBundle
+# PostmanBundle [![Build Status](https://travis-ci.org/staffim/PostmanBundle.png)](https://travis-ci.org/staffim/PostmanBundle)
 
 ## Goal
 
