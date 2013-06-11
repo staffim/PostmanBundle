@@ -3,6 +3,7 @@
 namespace Postman\PostmanBundle\Parser;
 
 use Postman\PostmanBundle\Attachment;
+use Postman\PostmanBundle\AttachmentBuilder;
 use Postman\PostmanBundle\MailBuilder;
 use EmailReplyParser\EmailReplyParser;
 
@@ -17,6 +18,9 @@ class Parser implements ParserInterface
      */
     protected $mailBuilder;
 
+    /**
+     * @param \ezcMailMultipart $part
+     */
     protected function parseMultipart(\ezcMailMultipart $part)
     {
         if ($part instanceof \ezcMailMultipartAlternative) {
@@ -53,6 +57,9 @@ class Parser implements ParserInterface
         }
     }
 
+    /**
+     * @param $part
+     */
     protected function parsePart($part)
     {
         if ($part instanceof \ezcMailMultipart) {
@@ -64,13 +71,24 @@ class Parser implements ParserInterface
         }
     }
 
+    /**
+     * @param \ezcMailFile $part
+     */
     protected function parseFilePart(\ezcMailFile $part)
     {
-        $attachment = new Attachment($part->fileName, $part->mimeType, $part->size, $part->dispositionType);
+        $attachment = AttachmentBuilder::create()
+            ->setFileName($part->fileName)
+            ->setMimeType($part->mimeType)
+            ->setSize($part->size)
+            ->setDispositionType($part->dispositionType)
+            ->getAttachment();
 
         $this->mailBuilder->addAttachment($attachment);
     }
 
+    /**
+     * @param \ezcMailText $part
+     */
     protected function parseTextPart(\ezcMailText $part)
     {
         $plainText = $part->text;
@@ -110,9 +128,7 @@ class Parser implements ParserInterface
 
     /**
      * @param string $mail Raw mail string.
-     *
      * @return \Postman\PostmanBundle\Mail
-     *
      * @throws \InvalidArgumentException
      */
     public function parse($mail)
