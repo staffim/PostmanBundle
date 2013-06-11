@@ -35,9 +35,9 @@ class Attachment
      */
     public function __construct($fileName, $mimeType, $size, $dispositionType)
     {
-        $this->fileName = $fileName;
-        $this->mimeType = $mimeType;
-        $this->size = $size;
+        $this->fileName        = $fileName;
+        $this->mimeType        = $mimeType;
+        $this->size            = $size;
         $this->dispositionType = $dispositionType;
     }
 
