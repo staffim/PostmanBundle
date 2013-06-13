@@ -25,7 +25,7 @@
     "require":     {
         "php": ">=5.3.2",
         "zetacomponents/mail": "dev-master",
-        "willdurand/email-reply-parser": "1.0.0"
+        "willdurand/email-reply-parser": "dev-master"
     },
     "target-dir":  "Postman/PostmanBundle"
 }
