@@ -76,8 +76,15 @@ class Parser implements ParserInterface
      */
     protected function parseFilePart(\ezcMailFile $part)
     {
+        $pathInfo = pathinfo($part->fileName);
+        $fileName = $pathInfo['filename'];
+        if (array_key_exists('extension', $pathInfo)) {
+            $fileName .= '.' . $pathInfo['extension'];
+        }
+
         $attachment = AttachmentBuilder::create()
-            ->setFileName($part->fileName)
+            ->setPath($part->fileName)
+            ->setFileName($fileName)
             ->setMimeType($part->mimeType)
             ->setSize($part->size)
             ->setDispositionType($part->dispositionType)
