@@ -8,6 +8,13 @@ namespace Postman\PostmanBundle;
 class Attachment
 {
     /**
+     * Original filename.
+     *
+     * @var string
+     */
+    private $path;
+
+    /**
      * @var string
      */
     private $fileName;
@@ -28,17 +35,27 @@ class Attachment
     private $dispositionType;
 
     /**
+     * @param string $path
      * @param string $fileName
      * @param string $mimeType
      * @param int $size
      * @param string $dispositionType
      */
-    public function __construct($fileName, $mimeType, $size, $dispositionType)
+    public function __construct($path, $fileName, $mimeType, $size, $dispositionType)
     {
+        $this->path            = $path;
         $this->fileName        = $fileName;
         $this->mimeType        = $mimeType;
         $this->size            = $size;
         $this->dispositionType = $dispositionType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
