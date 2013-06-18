@@ -6,6 +6,9 @@ use Postman\PostmanBundle\Parser\Parser;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Postman\PostmanBundle\Parser\Parser
+     */
     private $parser;
 
     protected function setUp()
@@ -60,5 +63,18 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 __DIR__.'/../Resources/3.txt'
             ),
         );
+    }
+
+    public function testAttachmentInformationParser()
+    {
+        $raw = file_get_contents(__DIR__ . '/../Resources/4.txt');
+        $mail = $this->parser->parse($raw);
+        $attachments = $mail->getAttachments();
+
+        $this->assertCount(1, $attachments);
+
+        $attachment = $attachments[0];
+
+        $this->assertEquals($attachment->getFileName(), 'Архив.zip');
     }
 }
