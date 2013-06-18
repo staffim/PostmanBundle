@@ -10,6 +10,13 @@ class AttachmentBuilder
     /**
      * @var string
      */
+    private $path;
+
+    /**
+     * Original filename.
+     *
+     * @var string
+     */
     private $fileName;
 
     /**
@@ -52,12 +59,10 @@ class AttachmentBuilder
      */
     public function setFileName($fileName)
     {
-        // FIXME Try to find way to do this work in zeta components.
-        preg_match('~=\?[-\w]+?\?B\?(?P<fileName>.+)\?=~', $fileName, $matches);
+        preg_match('~=(\?|_)[-\w]+?(\?|_)B(\?|_)(?P<fileName>.+)(\?|_)=~', $fileName, $matches);
         if (array_key_exists('fileName', $matches) && $decodedFileName = base64_decode($matches['fileName'], true)) {
             $fileName = $decodedFileName;
         }
-
         $this->fileName = $fileName;
 
         return $this;
@@ -86,11 +91,23 @@ class AttachmentBuilder
     }
 
     /**
+     * @param string $path
+     * @return \Postman\PostmanBundle\AttachmentBuilder
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
      * @return \Postman\PostmanBundle\Attachment
      */
     public function getAttachment()
     {
         return new Attachment(
+            $this->path,
             $this->fileName,
             $this->mimeType,
             $this->size,
