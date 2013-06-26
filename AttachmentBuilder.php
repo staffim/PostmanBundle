@@ -118,17 +118,23 @@ class AttachmentBuilder
      */
     private function decodeFilenamePart($part)
     {
-        preg_match('~=(?:\?|_)(?P<encoding>[-\w]+?)(?:\?|_)B(\?|_)(?P<fileName>.+)(?:\?|_)=~', $part, $matches);
+        preg_match('~=(?:\?|_)(?P<encoding>[-\w]+?)(?:\?|_)(?P<encodingType>B|Q)(?:\?|_)(?P<fileName>.+)(?:\?|_)=~i', $part, $matches);
         if (array_key_exists('fileName', $matches)) {
-            $filename = str_replace('_', '+', $matches['fileName']);
-            if ($decodedPart = base64_decode($filename, true)) {
-                // Ensure in utf-8.
-                $encoding = $matches['encoding'];
-                if (strcasecmp($encoding, 'utf-8') !== 0) {
-                    $decodedPart = iconv($encoding, 'utf-8', $decodedPart);
-                }
+            $encodingType = $matches['encodingType'];
+            $fileName = $matches['fileName'];
+            if (strcasecmp($encodingType, 'B') === 0) {
+                $fileName = str_replace('_', '+', $fileName);
+                if ($decodedPart = base64_decode($fileName, true)) {
+                    // Ensure in utf-8.
+                    $encoding = $matches['encoding'];
+                    if (strcasecmp($encoding, 'utf-8') !== 0) {
+                        $decodedPart = iconv($encoding, 'utf-8', $decodedPart);
+                    }
 
-                $part = $decodedPart;
+                    $part = $decodedPart;
+                }
+            } else {
+                $part = quoted_printable_decode(str_replace("_", " ", $fileName));
             }
         }
 
