@@ -59,11 +59,8 @@ class AttachmentBuilder
      */
     public function setFileName($fileName)
     {
-        preg_match('~=(\?|_)[-\w]+?(\?|_)B(\?|_)(?P<fileName>.+)(\?|_)=~', $fileName, $matches);
-        if (array_key_exists('fileName', $matches) && $decodedFileName = base64_decode($matches['fileName'], true)) {
-            $fileName = $decodedFileName;
-        }
-        $this->fileName = $fileName;
+        $fileNameParts = array_map(array($this, 'decodeFilenamePart'), preg_split('~[\s]+~', $fileName));
+        $this->fileName = implode('', $fileNameParts);
 
         return $this;
     }
@@ -113,5 +110,28 @@ class AttachmentBuilder
             $this->size,
             $this->dispositionType
         );
+    }
+
+    /**
+     * @param string $part Encoded part of filename.
+     * @return string Decoded part of filename.
+     */
+    private function decodeFilenamePart($part)
+    {
+        preg_match('~=(?:\?|_)(?P<encoding>[-\w]+?)(?:\?|_)B(\?|_)(?P<fileName>.+)(?:\?|_)=~', $part, $matches);
+        if (array_key_exists('fileName', $matches)) {
+            $filename = str_replace('_', '+', $matches['fileName']);
+            if ($decodedPart = base64_decode($filename, true)) {
+                // Ensure in utf-8.
+                $encoding = $matches['encoding'];
+                if (strcasecmp($encoding, 'utf-8') !== 0) {
+                    $decodedPart = iconv($encoding, 'utf-8', $decodedPart);
+                }
+
+                $part = $decodedPart;
+            }
+        }
+
+        return $part;
     }
 }
