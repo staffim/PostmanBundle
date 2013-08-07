@@ -65,9 +65,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAttachmentInformationParser()
+    /**
+     * @dataProvider getAttachmentFilenameParsingData
+     */
+    public function testAttachmentFilenameParsing($filename, $mailSource)
     {
-        $raw = file_get_contents(__DIR__ . '/../Resources/4.txt');
+        $raw = file_get_contents($mailSource);
         $mail = $this->parser->parse($raw);
         $attachments = $mail->getAttachments();
 
@@ -75,6 +78,19 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $attachment = $attachments[0];
 
-        $this->assertEquals($attachment->getFileName(), 'Архив.zip');
+        $this->assertEquals($filename, $attachment->getFileName());
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttachmentFilenameParsingData()
+    {
+        return array(
+            array('Архив.zip', __DIR__.'/../Resources/4.txt'),
+            array('Милая Hello kitty.jpg', __DIR__.'/../Resources/5.txt'),  // With content disposition.
+            array('Милая Hello kitty.jpg', __DIR__.'/../Resources/6.txt'),  // Without content disposition.
+            array('Cute kitty - dead kitty  ??.jpg', __DIR__.'/../Resources/7.txt'), // Without content disposition.
+        );
     }
 }

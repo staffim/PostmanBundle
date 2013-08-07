@@ -59,7 +59,7 @@ class AttachmentBuilder
      */
     public function setFileName($fileName)
     {
-        $fileNameParts = array_map(array($this, 'decodeFilenamePart'), preg_split('~[\s]+~', $fileName));
+        $fileNameParts = array_map(array($this, 'decodeFilenamePart'), preg_split('~\n+~', $fileName));
         $this->fileName = implode('', $fileNameParts);
 
         return $this;
@@ -123,7 +123,6 @@ class AttachmentBuilder
             $encodingType = $matches['encodingType'];
             $fileName = $matches['fileName'];
             if (strcasecmp($encodingType, 'B') === 0) {
-                $fileName = str_replace('_', '+', $fileName);
                 if ($decodedPart = base64_decode($fileName, true)) {
                     // Ensure in utf-8.
                     $encoding = $matches['encoding'];
