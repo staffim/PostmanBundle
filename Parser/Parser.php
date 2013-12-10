@@ -115,7 +115,7 @@ class Parser implements ParserInterface
             $plainText = $this->cleanHtmlBody($plainText);
         }
 
-        $visibleFragments = array_filter(EmailReplyParser::read($plainText), function($fragment) {
+        $visibleFragments = array_filter(EmailReplyParser::read($plainText)->getFragments(), function($fragment) {
             return !($fragment->isHidden() || $fragment->isQuoted());
         });
         $text = rtrim(implode("\n", $visibleFragments));
