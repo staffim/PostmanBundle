@@ -25,9 +25,8 @@ class Parser implements ParserInterface
     private function parseFilenameFromContentType(\ezcMailFile $file)
     {
         $contentType = $file->headers['Content-Type'];
-        preg_match('~name="(?P<filename>[^"]+)"~i', $contentType, $matches);
 
-        return $matches['filename'];
+        return preg_match('~name="(?P<filename>[^"]+)"~i', $contentType, $matches) ? $matches['filename'] : null;
     }
 
     /**
@@ -88,11 +87,11 @@ class Parser implements ParserInterface
      */
     protected function parseFilePart(\ezcMailFile $part)
     {
+        $fileName = null;
         if ($part->contentDisposition) {
             $fileName = $part->contentDisposition->displayFileName ?: $part->contentDisposition->fileName;
-        } else {
-            $fileName = $this->parseFilenameFromContentType($part);
         }
+        $fileName = $fileName ?: $this->parseFilenameFromContentType($part) ?: uniqid();
 
         $attachment = AttachmentBuilder::create()
             ->setPath($part->fileName)

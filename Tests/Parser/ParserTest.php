@@ -91,6 +91,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             array('Милая Hello kitty.jpg', __DIR__.'/../Resources/5.txt'),  // With content disposition.
             array('Милая Hello kitty.jpg', __DIR__.'/../Resources/6.txt'),  // Without content disposition.
             array('Cute kitty - dead kitty  ??.jpg', __DIR__.'/../Resources/7.txt'), // Without content disposition.
+            array('rules.docx', __DIR__.'/../Resources/8.txt'),
         );
     }
 }
